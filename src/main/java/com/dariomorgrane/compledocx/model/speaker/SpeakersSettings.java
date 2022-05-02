@@ -1,4 +1,4 @@
-package com.dariomorgrane.compledocx.model;
+package com.dariomorgrane.compledocx.model.speaker;
 
 public interface SpeakersSettings {
 

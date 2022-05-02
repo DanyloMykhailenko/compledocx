@@ -1,4 +1,4 @@
-package com.dariomorgrane.compledocx.model;
+package com.dariomorgrane.compledocx.model.document;
 
 import com.dariomorgrane.compledocx.exception.*;
 

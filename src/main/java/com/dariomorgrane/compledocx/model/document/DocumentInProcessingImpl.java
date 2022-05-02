@@ -1,6 +1,8 @@
-package com.dariomorgrane.compledocx.model;
+package com.dariomorgrane.compledocx.model.document;
 
 import com.dariomorgrane.compledocx.exception.*;
+import com.dariomorgrane.compledocx.model.speaker.Speaker;
+import com.dariomorgrane.compledocx.model.speaker.SpeakersSettings;
 import org.docx4j.XmlUtils;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
