@@ -10,6 +10,6 @@ public interface SupplementedDocument {
 
     Instant getCreateTimestamp();
 
-    Byte[] getContent();
+    byte[] getContent();
 
 }

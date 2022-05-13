@@ -1,35 +1,57 @@
 package com.dariomorgrane.compledocx.model.document;
 
-import java.time.Instant;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
+import java.time.Instant;
+import java.util.*;
+
+@Entity
+@Table(name = "documents")
 public class SupplementedDocumentImpl implements SupplementedDocument {
 
-    private static final Long ignorableId = -1L;
+    private static final String SNOWFLAKE_ID_GENERATOR_NAME = "SnowflakeIdentifierGenerator";
+    private static final String IGNORABLE_NAME = "";
+    private static final byte[] IGNORABLE_CONTENT = {};
 
+    @GenericGenerator(
+            name = SNOWFLAKE_ID_GENERATOR_NAME,
+            strategy = "com.dariomorgrane.compledocx.persistence.generator.SnowflakeIdentifierGenerator"
+    )
+    @GeneratedValue(generator = SNOWFLAKE_ID_GENERATOR_NAME)
+    @Id
     private final Long id;
 
+    @Column
     private final String name;
 
+    @Column
     private final Instant createTimestamp;
 
-    private final Byte[] content;
+    @Column
+    private final byte[] content;
 
     public SupplementedDocumentImpl(
             Long id,
             String name,
-            Byte[] content
+            Instant createTimestamp,
+            byte[] content
     ) {
         this.id = id;
         this.name = name;
-        this.createTimestamp = Instant.now();
+        this.createTimestamp = createTimestamp;
         this.content = content;
     }
 
     public SupplementedDocumentImpl(
             String name,
-            Byte[] content
+            byte[] content
     ) {
-        this(ignorableId, name, content);
+        this(null, name, Instant.now(), content);
+    }
+
+    protected SupplementedDocumentImpl() {
+        this(IGNORABLE_NAME, IGNORABLE_CONTENT);
     }
 
     @Override
@@ -48,8 +70,36 @@ public class SupplementedDocumentImpl implements SupplementedDocument {
     }
 
     @Override
-    public Byte[] getContent() {
+    public byte[] getContent() {
         return content;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SupplementedDocumentImpl that = (SupplementedDocumentImpl) o;
+        return Objects.equals(id, that.id)
+                && Objects.equals(name, that.name)
+                && Objects.equals(createTimestamp, that.createTimestamp)
+                && Arrays.equals(content, that.content);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, name, createTimestamp);
+        result = 31 * result + Arrays.hashCode(content);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(",\n", SupplementedDocumentImpl.class.getSimpleName() + "[\n", "]")
+                .add("id=" + id)
+                .add("name='" + name + "'")
+                .add("createTimestamp=" + createTimestamp)
+                .add("content=" + Arrays.toString(content))
+                .toString();
     }
 
 }

@@ -22,6 +22,9 @@ dependencies {
 	implementation ('org.docx4j:docx4j:6.1.2') {
 		exclude group: 'org.slf4j', module: 'slf4j-reload4j'
 	}
+	implementation ('org.apache.marmotta:kiwi-triplestore:3.4.0') {
+		transitive = false
+	}
 }
 
 tasks.named('test') {
