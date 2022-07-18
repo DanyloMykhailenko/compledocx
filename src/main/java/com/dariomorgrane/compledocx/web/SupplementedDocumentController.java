@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/supplemented-documents")
 @Validated

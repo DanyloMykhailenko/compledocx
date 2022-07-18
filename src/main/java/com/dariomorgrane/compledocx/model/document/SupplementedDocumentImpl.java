@@ -22,13 +22,11 @@ public class SupplementedDocumentImpl implements SupplementedDocument {
     @Id
     private final Long id;
 
-    @Column
     private final String name;
 
-    @Column
     private final Instant createTimestamp;
 
-    @Column
+    @Lob
     private final byte[] content;
 
     public SupplementedDocumentImpl(

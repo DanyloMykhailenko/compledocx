@@ -99,16 +99,24 @@ public class DocumentInProcessingImpl implements DocumentInProcessing {
     private RPr generateSpeakerDesignationRunProperties(P paragraph) throws EmptyParagraphException {
         for (Object paragraphElement : paragraph.getContent()) {
             if (paragraphElement instanceof R run) {
-                RPr resultRunProperties = XmlUtils.deepCopy(run.getRPr());
-                BooleanDefaultTrue isBold = new BooleanDefaultTrue();
-                isBold.setVal(speakersSettings.speakersDesignationsAreBold());
-                resultRunProperties.setB(isBold);
-                return resultRunProperties;
+                return getFormattedRunProperties(run);
             }
         }
         EmptyParagraphException exception = new EmptyParagraphException("An empty paragraph was found.");
         LOGGER.error(exception.getMessage(), exception);
         throw exception;
+    }
+
+    private RPr getFormattedRunProperties(R run) {
+        RPr formattedRunProperties = Objects.isNull(run.getRPr())
+                ? new RPr()
+                : XmlUtils.deepCopy(run.getRPr());
+        BooleanDefaultTrue isBold = new BooleanDefaultTrue();
+        isBold.setVal(speakersSettings.speakersDesignationsAreBold());
+        formattedRunProperties.setB(isBold);
+        formattedRunProperties.setColor(null);
+        formattedRunProperties.setHighlight(null);
+        return formattedRunProperties;
     }
 
     private byte[] docxToBytes(WordprocessingMLPackage docx) throws DocxSavingException {
